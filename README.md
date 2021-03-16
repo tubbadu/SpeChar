@@ -12,6 +12,8 @@ easily paste special characters!
 >     os
 >     subprocess
 >     sys
+> 
+> Tested succesfully on Linux, don't know on Windows MacOs
 
 ## Preparation
 * download this project somewhere in your PC
