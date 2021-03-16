@@ -4,14 +4,14 @@ easily paste special characters!
 
 ## requirements
 
-> `python3`<br>
-> <br>
-> `PySimpleGUI`<br>
-> `pyperclip`<br>
-> <br>
-> `os`<br>
-> `subprocess`<br>
-> `sys`<br>
+>     python3
+>     
+>     PySimpleGUI
+>     pyperclip
+>     
+>     os
+>     subprocess
+>     sys
 
 ## preparation
 * download this project somewhere in your PC
