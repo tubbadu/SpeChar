@@ -3,15 +3,15 @@
 easily paste special characters!
 
 ## requirements
-* `python3`
 
-* `pyautogui`
-* `PySimpleGUI`
-* `pyperclip`
-
-* `os`
-* `subprocess`
-* `sys`
+> `python3`<br>
+> <br>
+> `PySimpleGUI`<br>
+> `pyperclip`<br>
+> <br>
+> `os`<br>
+> `subprocess`<br>
+> `sys`<br>
 
 ## preparation
 * download this project somewhere in your PC
