@@ -30,3 +30,6 @@ you can add, edit or remove any character from this configuration file
 
 ## Usage
 now just press the hotkey whenever you want to insert a special character, type the name in the searchbar and select it with the arrows or clicking on it, and it will copy the character to your clipboard and paste it in your text!
+
+## TODO
+change the icon

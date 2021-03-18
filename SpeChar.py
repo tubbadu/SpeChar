@@ -7,8 +7,8 @@ import subprocess
 import sys
 import pyautogui
 sg.theme('DarkTeal12')
-pastePath = "/home/tubbadu/Documenti/code/utility_script/SpeChar/SpeChar_paste.py" 
-configPath = "/home/tubbadu/Documenti/code/utility_script/SpeChar/SpeChar.config"
+pastePath = "/home/tubbadu/code/GitHub/SpeChar/SpeChar_paste.py" 
+configPath = "/home/tubbadu/code/GitHub/SpeChar/SpeChar.config"
 screenSize = (1920, 1080)
 
 def spawn_program_and_die(program, exit_code=0): #copiata lol
@@ -57,7 +57,7 @@ def main():
 			pos = (pos[0] + screenSize[0], pos[1])
 
 		layout = [[sg.Listbox(values=justChar, size=(3, 6), key='--listbox--', enable_events=True, font=("DejaVu Math TeX Gyre", 15)), sg.Input(key='--search--', font=("Helvetica", 15), size=(12, None))]]
-		window = sg.Window('SpeChar', layout, element_justification='center', return_keyboard_events=True, size=(234, 150), location=pos)
+		window = sg.Window('SpeChar', layout, element_justification='center', return_keyboard_events=True, size=(234, 150), location=pos, icon='/home/tubbadu/code/GitHub/SpeChar/SpeCharIcon.ico')
 		index = 0
 		oldlen = len(justChar)
 		while(True):
