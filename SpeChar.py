@@ -33,10 +33,14 @@ def refreshList(txt):
 			ret.append(element[0])
 	return ret
 
-def paste(ch):
+def paste(ch, shift):
+	if(shift):
+		flag = 'shift'
+	else:
+		flag = ''
 	pyperclip.copy(ch)
-	pyperclip.paste()
-	spawn_program_and_die(['python3', pastePath])
+	# pyperclip.paste()
+	spawn_program_and_die(['python3', pastePath, flag])
 	exit()
 
 def main():
@@ -56,13 +60,15 @@ def main():
 			#sono nel secondo schermo
 			pos = (pos[0] + screenSize[0], pos[1])
 
-		layout = [[sg.Listbox(values=justChar, size=(3, 6), key='--listbox--', enable_events=True, font=("DejaVu Math TeX Gyre", 15)), sg.Input(key='--search--', font=("Helvetica", 15), size=(12, None))]]
+		layout = [[sg.Listbox(values=justChar, size=(3, 6), key='--listbox--', enable_events=True, font=("DejaVu Math TeX Gyre", 15)), sg.Column([[sg.Checkbox("shift", default=False, key='--checkbox--', enable_events=True)], [sg.Input(key='--search--', font=("Helvetica", 15), size=(12, None))]], justification='right')]]
 		window = sg.Window('SpeChar', layout, element_justification='center', return_keyboard_events=True, size=(234, 150), location=pos, icon='/home/tubbadu/code/GitHub/SpeChar/SpeCharIcon.ico')
 		index = 0
 		oldlen = len(justChar)
 		while(True):
 			event, values = window.read()
-			print(window.size, '<<<')
+			shift = values['--checkbox--']
+			if 'Shift' in event:
+				window['--checkbox--'].update(value = not shift)
 			if 'Up' in event and index > 0:
 				index -= 1
 			elif 'Down' in event and index < len(justChar) - 1:
@@ -80,18 +86,18 @@ def main():
 			if 'KP_Enter' in event or 'Return' in event:
 				# TODO aggiungere l'ordinamento maiuscola/minuscola, mettere la possibilità di navigare con le frecce
 				ch = justChar[index].strip().strip('<').strip() #refreshList(txt)[0]
-				paste(ch)
+				paste(ch, shift)
 			elif event == sg.WINDOW_CLOSED or 'Escape' in event:
 				break
 			elif event == '--listbox--':
 				# è stato premuto un char!
 				ch = values['--listbox--'][0]
-				paste(ch)
+				paste(ch, shift)
 
 			if 'MouseWheel' not in event:
 				window['--listbox--'].update(values = justChar)
 			
-			# print(event)
+			print(event)
 		window.close()
 	except Exception as e:
 		print('An error occourred while running SpeChar:', e)

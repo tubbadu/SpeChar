@@ -30,6 +30,7 @@ you can add, edit or remove any character from this configuration file
 
 ## Usage
 now just press the hotkey whenever you want to insert a special character, type the name in the searchbar and select it with the arrows or clicking on it, and it will copy the character to your clipboard and paste it in your text!
+new feature added: toggle with the shift key the possibility to automatic shiftpaste the special character, in order to paste it also in the terminal
 
 ## TODO
 change the icon
