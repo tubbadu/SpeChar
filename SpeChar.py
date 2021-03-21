@@ -33,13 +33,12 @@ def refreshList(txt):
 			ret.append(element[0])
 	return ret
 
-def paste(ch, shift):
+def paste(ch, shift=False):
 	if(shift):
 		flag = 'shift'
 	else:
 		flag = ''
 	pyperclip.copy(ch)
-	# pyperclip.paste()
 	spawn_program_and_die(['python3', pastePath, flag])
 	exit()
 
