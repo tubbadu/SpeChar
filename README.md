@@ -1,4 +1,4 @@
-# SpeCharrr
+# SpeChar
 
 easily paste special characters!
 
