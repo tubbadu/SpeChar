@@ -33,4 +33,5 @@ now just press the hotkey whenever you want to insert a special character, type 
 new feature added: toggle with the shift key the possibility to automatic shiftpaste the special character, in order to paste it also in the terminal
 
 ## TODO
-change the icon
++ change the icon
++ change the copy-paste method to the xrandr method
