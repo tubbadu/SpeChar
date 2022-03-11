@@ -7,8 +7,8 @@ import subprocess
 import sys
 import pyautogui
 sg.theme('DarkTeal12')
-pastePath = "/home/tubbadu/code/GitHub/SpeChar/SpeChar_paste.py" 
-configPath = "/home/tubbadu/code/GitHub/SpeChar/SpeChar.config"
+pastePath = "/home/tubbadu/code/GitHub/SpeChar/xdotool.py"
+configPath = "/home/tubbadu/git/SpeChar/SpeChar.config"
 screenSize = (1920, 1080)
 
 def spawn_program_and_die(program, exit_code=0): #copiata lol
@@ -33,13 +33,9 @@ def refreshList(txt):
 			ret.append(element[0])
 	return ret
 
-def paste(ch, shift=False):
-	if(shift):
-		flag = 'shift'
-	else:
-		flag = ''
-	pyperclip.copy(ch)
-	spawn_program_and_die(['python3', pastePath, flag])
+def xdotool(s, shift=False):
+	print(s)
+	spawn_program_and_die(['xdotool', 'type', s])
 	exit()
 
 def main():
@@ -85,13 +81,13 @@ def main():
 			if 'KP_Enter' in event or 'Return' in event:
 				# TODO aggiungere l'ordinamento maiuscola/minuscola, mettere la possibilità di navigare con le frecce
 				ch = justChar[index].strip().strip('<').strip() #refreshList(txt)[0]
-				paste(ch, shift)
+				xdotool(ch, shift)
 			elif event == sg.WINDOW_CLOSED or 'Escape' in event:
 				break
 			elif event == '--listbox--':
 				# è stato premuto un char!
 				ch = values['--listbox--'][0]
-				paste(ch, shift)
+				xdotool(ch, shift)
 
 			if 'MouseWheel' not in event:
 				window['--listbox--'].update(values = justChar)

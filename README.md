@@ -34,4 +34,3 @@ new feature added: toggle with the shift key the possibility to automatic shiftp
 
 ## TODO
 + change the icon
-+ change the copy-paste method to the xrandr method
