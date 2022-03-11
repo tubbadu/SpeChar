@@ -7,8 +7,10 @@ import subprocess
 import sys
 import pyautogui
 sg.theme('DarkTeal12')
-pastePath = "/home/tubbadu/code/GitHub/SpeChar/xdotool.py"
-configPath = "/home/tubbadu/git/SpeChar/SpeChar.config"
+
+path = os.path.abspath(os.path.dirname(__file__))
+pastePath = path + "/xdotool.py"
+configPath = path + "/SpeChar.config"
 screenSize = (1920, 1080)
 
 def spawn_program_and_die(program, exit_code=0): #copiata lol
