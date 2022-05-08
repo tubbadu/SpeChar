@@ -14,7 +14,7 @@ from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QList
 from PyQt6.QtGui import QFont, QIcon# import setIcon
 
 path = os.path.abspath(os.path.dirname(__file__))
-configPath = path + "/speChar.config"
+configPath = path + "/speChar_it.config"
 iconPath = path + "/speCharIcon.ico"
 screenSize = (1920, 1080) #TODO get automatically
 

@@ -1,6 +1,6 @@
 # SpeChar
 
-easily paste special characters!
+Easily type special characters!
 
 ## Requirements
 
@@ -24,6 +24,16 @@ easily paste special characters!
 * assign `/path/to/SpeChar.py` to a hotkey (for example, Super+Ins)
 * done!
 
+## Language
+
+* at the moment the only language is Italian (`speChar_it.config`) but any other language may be added by just changing characters' descriptions in the config file (renaming it `speChar_<language code>.config`) and changing line 17 in:
+  
+  ```python
+  configPath = path + "/speChar_<language code>.config"
+  ```
+
+* TODO: add easier language customization, perhaps with a `speChar_global.config` with just `Language=it` or something like this
+
 ## Customization (optional)
 
 the file SpeChar.config contains the list of special characters available, using this format: <br>
@@ -42,4 +52,5 @@ now just press the hotkey whenever you want to insert a special character, type 
 + change font using a "math font"
 + get screen size automatically
 + tidy up
-* change scrollbar to native
++ change scrollbar to native
+* add more languages support
