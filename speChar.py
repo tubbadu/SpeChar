@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-	SpeChar by Tubbadu
+	speChar by Tubbadu
 
 	TODO:
 	* change font
@@ -14,19 +14,17 @@ from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QList
 from PyQt6.QtGui import QFont, QIcon# import setIcon
 
 path = os.path.abspath(os.path.dirname(__file__))
-pastePath = path + "/xdotool.py"
-configPath = path + "/SpeChar.config"
-iconPath = path + "/SpeCharIcon.ico"
+configPath = path + "/speChar.config"
+iconPath = path + "/speCharIcon.ico"
 screenSize = (1920, 1080) #TODO get automatically
-specialCharacters = list()
-
 
 def getConfig():
-	global specialCharacters #, l_info #farla modificare con un return magari
+	specialCharacters = list()
 	with open(configPath, 'r') as infile:
 		for line in infile:
 			add = line.strip().split('-')
 			specialCharacters.append([add[0].strip(), add[1].strip()])
+	return specialCharacters
 
 def write(s):
 	print(s)
@@ -38,20 +36,17 @@ def refreshList(txt):
 		if txt.lower() in element[1].lower():
 			ret.append(QListWidgetItem(element[0]))
 	return ret
-getConfig()
+
+specialCharacters = getConfig()
 lq = refreshList("")
-
-
 
 
 class Main(QWidget):
 	def __init__(self):
 		super().__init__()
-
 		self.initUI()
 	
 	def keyPressEvent(self, e):
-		#print(e.key())
 		if e.key() == Qt.Key.Key_Escape.value:
 			self.close()
 		elif e.key() == Qt.Key.Key_Enter.value or e.key() == Qt.Key.Key_Return.value:
@@ -82,35 +77,22 @@ class Main(QWidget):
 		def itemclicked(item):
 			print(item.text())
 
-		
 		self.lbox = QListWidget(self)
 		lbox = self.lbox
 		for el in lq:
 			lbox.addItem(el)
 		lbox.resize(lbox.sizeHint())
 		lbox.itemClicked.connect(itemclicked)
-
 		self.tbox = QLineEdit(self)
 		tbox = self.tbox
 		tbox.textChanged.connect(textchanged)
-
 		lbox.move(0, 0)
 		lbox.setGeometry(5, 5, 100, 190)
 		#tbox.move(115, 85)
 		tbox.setGeometry(115, 83, 100, 25)
 		tbox.setFocus()
 		tbox.setAlignment(Qt.AlignmentFlag.AlignCenter)
-		lbox.setCurrentRow(0)
-
-		'''layout = QVBoxLayout()
-
-		layout.addWidget(lbox)
-		layout.addWidget(tbox)
-
-		widget = QWidget()
-		widget.setLayout(layout)'''
-		#self.setCentralWidget(widget)
-		
+		lbox.setCurrentRow(0)		
 		self.setGeometry(screenSize[0]//2 - 110, screenSize[1]//2 - 100, 220, 200)
 		self.setWindowTitle('speChar')
 		self.setWindowIcon(QIcon(iconPath))
@@ -122,7 +104,6 @@ class Main(QWidget):
 
 
 def main():
-
 	app = QApplication(sys.argv)
 	ex = Main()
 	sys.exit(app.exec())
