@@ -6,7 +6,7 @@
 	* change font
 	* get screen size automatically
 	* tidy up
-	* change scrollbar to native
+	* change scrollbar to the native one (don't know why it's different)
 """
 import sys, os, subprocess
 from PyQt6.QtCore import Qt
