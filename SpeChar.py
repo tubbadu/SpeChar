@@ -16,6 +16,7 @@ from PyQt6.QtGui import QFont, QIcon# import setIcon
 path = os.path.abspath(os.path.dirname(__file__))
 pastePath = path + "/xdotool.py"
 configPath = path + "/SpeChar.config"
+iconPath = path + "/SpeCharIcon.ico"
 screenSize = (1920, 1080) #TODO get automatically
 specialCharacters = list()
 
@@ -112,7 +113,7 @@ class Main(QWidget):
 		
 		self.setGeometry(screenSize[0]//2 - 110, screenSize[1]//2 - 100, 220, 200)
 		self.setWindowTitle('speChar')
-		self.setWindowIcon(QIcon("/home/tubbadu/code/GitHub/SpeChar/SpeCharIcon.ico"))
+		self.setWindowIcon(QIcon(iconPath))
 		print(dir(self))
 		font = QFont()
 		font.setPixelSize(15)
