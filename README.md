@@ -6,10 +6,10 @@ easily paste special characters!
 
 >     #python interpreter
 >     python3
->     #this is needed to paste the chosen character
+>     #this is needed to type the chosen character
 >     xdotool
 >     #python libraries, installed from pip
->     PySimpleGUI
+>     PyQt6
 >     #those should already be installed 
 >     os
 >     subprocess
@@ -20,7 +20,8 @@ easily paste special characters!
 ## Preparation
 
 * download this project somewhere in your PC
-* assign SpeChar.py to a hotkey (for example, Super+Insert)
+* make sure it has execution permission: `chmod +x /path/to/SpeChar.py`
+* assign `/path/to/SpeChar.py` to a hotkey (for example, Super+Ins)
 * done!
 
 ## Customization (optional)
@@ -34,9 +35,12 @@ you can add, edit or remove any character from this configuration file
 
 ## Usage
 
-now just press the hotkey whenever you want to insert a special character, type the name in the searchbar and select it with the arrows or clicking on it, and it will copy the character to your clipboard and paste it in your text!
-new feature added: toggle with the shift key the possibility to automatic shiftpaste the special character, in order to paste it also in the terminal
+now just press the hotkey whenever you want to insert a special character, type the name in the searchbar and select it with the arrows or clicking on it, and it will type it in your text!
+
 
 ## TODO
 
-+ change the icon
++ change font using a "math font"
++ get screen size automatically
++ tidy up
+  * change scrollbar to native
