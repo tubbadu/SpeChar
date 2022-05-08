@@ -15,7 +15,7 @@ easily paste special characters!
 >     subprocess
 >     sys
 > 
-> Tested succesfully on Linux, don't know on Windows MacOs
+> Tested succesfully on Linux, don't know on Windows and MacOs (surely won't work, but perhaps changing xdotool with something equivalent will)
 
 ## Preparation
 
@@ -37,10 +37,9 @@ you can add, edit or remove any character from this configuration file
 
 now just press the hotkey whenever you want to insert a special character, type the name in the searchbar and select it with the arrows or clicking on it, and it will type it in your text!
 
-
 ## TODO
 
 + change font using a "math font"
 + get screen size automatically
 + tidy up
-  * change scrollbar to native
+* change scrollbar to native
