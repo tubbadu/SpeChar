@@ -1,101 +1,131 @@
 #!/usr/bin/python3
+"""
+	SpeChar by Tubbadu
 
-import PySimpleGUI as sg
-import pyperclip
-import os
-import subprocess
-import sys
-import pyautogui
-sg.theme('DarkTeal12')
+	TODO:
+	* change font
+	* get screen size automatically
+	* tidy up
+	* change scrollbar to native
+"""
+import sys, os, subprocess
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QListWidgetItem
+from PyQt6.QtGui import QFont, QIcon# import setIcon
 
 path = os.path.abspath(os.path.dirname(__file__))
 pastePath = path + "/xdotool.py"
 configPath = path + "/SpeChar.config"
-screenSize = (1920, 1080)
+screenSize = (1920, 1080) #TODO get automatically
+specialCharacters = list()
 
-def spawn_program_and_die(program, exit_code=0): #copiata lol
-    """
-    Start an external program and exit the script 
-    with the specified return code.
 
-    Takes the parameter program, which is a list 
-    that corresponds to the argv of your command.
-    """
-    # Start the external program
-    subprocess.Popen(program)
-    # We have started the program, and can suspend this interpreter
-    sys.exit(exit_code)
+def getConfig():
+	global specialCharacters #, l_info #farla modificare con un return magari
+	with open(configPath, 'r') as infile:
+		for line in infile:
+			add = line.strip().split('-')
+			specialCharacters.append([add[0].strip(), add[1].strip()])
 
-specialCharacters, justChar = [], []
+def write(s):
+	print(s)
+	subprocess.Popen(['xdotool', 'type', s])
 
 def refreshList(txt):
 	ret = []
 	for element in specialCharacters:
 		if txt.lower() in element[1].lower():
-			ret.append(element[0])
+			ret.append(QListWidgetItem(element[0]))
 	return ret
+getConfig()
+lq = refreshList("")
 
-def xdotool(s, shift=False):
-	print(s)
-	spawn_program_and_die(['xdotool', 'type', s])
-	exit()
+
+
+
+class Main(QWidget):
+	def __init__(self):
+		super().__init__()
+
+		self.initUI()
+	
+	def keyPressEvent(self, e):
+		#print(e.key())
+		if e.key() == Qt.Key.Key_Escape.value:
+			self.close()
+		elif e.key() == Qt.Key.Key_Enter.value or e.key() == Qt.Key.Key_Return.value:
+			# print current selection (then closes app)
+			self.close()
+			write(self.lbox.currentItem().text())
+			
+		elif e.key() == Qt.Key.Key_Down.value:
+			try:
+				self.lbox.setCurrentRow(self.lbox.currentRow() + 1)
+			except Exception as e:
+				print(e)
+		elif e.key() == Qt.Key.Key_Up.value:
+			try:
+				self.lbox.setCurrentRow(self.lbox.currentRow() - 1)
+			except Exception as e:
+				print(e)
+
+	def initUI(self):
+		def textchanged():
+			lbox.clear()
+			lq = refreshList(str(self.tbox.text()))
+			for el in lq:
+				lbox.addItem(el.text())
+			#now select first element
+			lbox.setCurrentRow(0)
+
+		def itemclicked(item):
+			print(item.text())
+
+		
+		self.lbox = QListWidget(self)
+		lbox = self.lbox
+		for el in lq:
+			lbox.addItem(el)
+		lbox.resize(lbox.sizeHint())
+		lbox.itemClicked.connect(itemclicked)
+
+		self.tbox = QLineEdit(self)
+		tbox = self.tbox
+		tbox.textChanged.connect(textchanged)
+
+		lbox.move(0, 0)
+		lbox.setGeometry(5, 5, 100, 190)
+		#tbox.move(115, 85)
+		tbox.setGeometry(115, 83, 100, 25)
+		tbox.setFocus()
+		tbox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+		lbox.setCurrentRow(0)
+
+		'''layout = QVBoxLayout()
+
+		layout.addWidget(lbox)
+		layout.addWidget(tbox)
+
+		widget = QWidget()
+		widget.setLayout(layout)'''
+		#self.setCentralWidget(widget)
+		
+		self.setGeometry(screenSize[0]//2 - 110, screenSize[1]//2 - 100, 220, 200)
+		self.setWindowTitle('speChar')
+		self.setWindowIcon(QIcon("/home/tubbadu/code/GitHub/SpeChar/SpeCharIcon.ico"))
+		print(dir(self))
+		font = QFont()
+		font.setPixelSize(15)
+		self.setFont(font)
+		self.show()
+
 
 def main():
-	try:
-		global justChar
-		with open(configPath, 'r') as infile:
-			
-			for line in infile:
-				add = line.strip().split('-')
-				specialCharacters.append([add[0].strip(), add[1].strip()])
-				justChar.append(add[0].strip())
-		justChar[0] = justChar[0] + ' <'
 
-		currentMouseX, _ = pyautogui.position()
-		pos = ((screenSize[0] - 300)/2, (screenSize[1] - 185)/2)
-		if currentMouseX > screenSize[0]:
-			#sono nel secondo schermo
-			pos = (pos[0] + screenSize[0], pos[1])
+	app = QApplication(sys.argv)
+	ex = Main()
+	sys.exit(app.exec())
 
-		layout = [[sg.Listbox(values=justChar, size=(3, 6), key='--listbox--', enable_events=True, font=("DejaVu Math TeX Gyre", 15)), sg.Column([[sg.Checkbox("shift", default=False, key='--checkbox--', enable_events=True)], [sg.Input(key='--search--', font=("Helvetica", 15), size=(12, None))]], justification='right')]]
-		window = sg.Window('SpeChar', layout, element_justification='center', return_keyboard_events=True, size=(234, 150), location=pos, icon='/home/tubbadu/code/GitHub/SpeChar/SpeCharIcon.ico')
-		index = 0
-		oldlen = len(justChar)
-		while(True):
-			event, values = window.read()
-			shift = values['--checkbox--']
-			if 'Shift' in event:
-				window['--checkbox--'].update(value = not shift)
-			if 'Up' in event and index > 0:
-				index -= 1
-			elif 'Down' in event and index < len(justChar) - 1:
-				index += 1
-			
-			txt = values['--search--']
-			justChar = refreshList(txt)
-			
-			if oldlen != len(justChar):
-				index = 0
-			oldlen = len(justChar)
 
-			if len(justChar) > 0: justChar[index] = justChar[index] + ' <'
-
-			if 'KP_Enter' in event or 'Return' in event:
-				# TODO aggiungere l'ordinamento maiuscola/minuscola, mettere la possibilità di navigare con le frecce
-				ch = justChar[index].strip().strip('<').strip() #refreshList(txt)[0]
-				xdotool(ch, shift)
-			elif event == sg.WINDOW_CLOSED or 'Escape' in event:
-				break
-			elif event == '--listbox--':
-				# è stato premuto un char!
-				ch = values['--listbox--'][0]
-				xdotool(ch, shift)
-
-			if 'MouseWheel' not in event:
-				window['--listbox--'].update(values = justChar)
-			
-			print(event)
-		window.close()
-	except Exception as e:
-		print('An error occourred while running SpeChar:', e)
-main()
+if __name__ == '__main__':
+	main()
