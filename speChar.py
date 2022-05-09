@@ -8,10 +8,33 @@
 	* tidy up
 	* change scrollbar to the native one (don't know why it's different)
 """
+PyQt_VERSION = 5
+
 import sys, os, subprocess
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QListWidgetItem
-from PyQt6.QtGui import QFont, QIcon# import setIcon
+if PyQt_VERSION == 5:
+	from PyQt5.QtCore import Qt
+	from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QListWidgetItem
+	from PyQt5.QtGui import QFont, QIcon
+
+	Key_Escape = Qt.Key_Escape
+	Key_Enter = Qt.Key_Enter
+	Key_Return = Qt.Key_Return
+	Key_Down = Qt.Key_Down
+	Key_Up = Qt.Key_Up
+
+elif PyQt_VERSION == 6:
+	from PyQt6.QtCore import Qt
+	from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QListWidgetItem
+	from PyQt6.QtGui import QFont, QIcon
+
+	Key_Escape = Qt.Key.Key_Escape
+	Key_Enter = Qt.Key.Key_Enter
+	Key_Return = Qt.Key.Key_Return
+	Key_Down = Qt.Key.Key_Down
+	Key_Up = Qt.Key.Key_Up
+else:
+	print("Error: PyQt_VERSION not supported")
+	exit(1)
 
 path = os.path.abspath(os.path.dirname(__file__))
 configPath = path + "/speChar_it.config"
@@ -47,19 +70,19 @@ class Main(QWidget):
 		self.initUI()
 	
 	def keyPressEvent(self, e):
-		if e.key() == Qt.Key.Key_Escape.value:
+		if e.key() == Key_Escape:
 			self.close()
-		elif e.key() == Qt.Key.Key_Enter.value or e.key() == Qt.Key.Key_Return.value:
+		elif e.key() == Key_Enter or e.key() == Key_Return:
 			# print current selection (then closes app)
 			self.close()
 			write(self.lbox.currentItem().text())
 			
-		elif e.key() == Qt.Key.Key_Down.value:
+		elif e.key() == Key_Down:
 			try:
 				self.lbox.setCurrentRow(self.lbox.currentRow() + 1)
 			except Exception as e:
 				print(e)
-		elif e.key() == Qt.Key.Key_Up.value:
+		elif e.key() == Key_Up:
 			try:
 				self.lbox.setCurrentRow(self.lbox.currentRow() - 1)
 			except Exception as e:
@@ -75,7 +98,8 @@ class Main(QWidget):
 			lbox.setCurrentRow(0)
 
 		def itemclicked(item):
-			print(item.text())
+			self.close()
+			write(item.text())
 
 		self.lbox = QListWidget(self)
 		lbox = self.lbox
@@ -96,7 +120,6 @@ class Main(QWidget):
 		self.setGeometry(screenSize[0]//2 - 110, screenSize[1]//2 - 100, 220, 200)
 		self.setWindowTitle('speChar')
 		self.setWindowIcon(QIcon(iconPath))
-		print(dir(self))
 		font = QFont()
 		font.setPixelSize(15)
 		self.setFont(font)
