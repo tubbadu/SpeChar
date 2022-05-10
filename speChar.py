@@ -8,9 +8,35 @@
 	* tidy up
 	* change scrollbar to the native one (don't know why it's different)
 """
-PyQt_VERSION = 5
-
+from operator import index
 import sys, os, subprocess
+
+#default values
+PyQt_VERSION = 5
+LANGUAGE = "en"
+
+#reading arguments values
+args = sys.argv[1:]
+if "-l" in args:
+	LANGUAGE = args[args.index("-l") + 1]
+
+if "-v" in args:
+	PyQt_VERSION = int(args[args.index("-v") + 1])
+
+#global variables
+
+path = os.path.abspath(os.path.dirname(__file__))
+configPath = path + "/speChar_" + LANGUAGE.strip() + ".config"
+iconPath = path + "/speCharIcon.ico"
+screenSize = (None, None)
+
+#check if language is supported
+if not os.path.isfile(configPath):
+	print(f"file {configPath} not found: Perhaps \"{LANGUAGE}\" language is not supported yet! Add it yourself in the github page (really easy!): https://github.com/tubbadu/SpeChar/pulls")
+	exit()
+
+
+
 if PyQt_VERSION == 5:
 	from PyQt5.QtCore import Qt
 	from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QListWidget, QListWidgetItem
@@ -36,14 +62,11 @@ else:
 	print("Error: PyQt_VERSION not supported")
 	exit(1)
 
-path = os.path.abspath(os.path.dirname(__file__))
-configPath = path + "/speChar_it.config"
-iconPath = path + "/speCharIcon.ico"
-screenSize = (1920, 1080) #TODO get automatically
+
 
 def getConfig():
 	specialCharacters = list()
-	with open(configPath, 'r') as infile:
+	with open(configPath, 'r', encoding="utf16") as infile:
 		for line in infile:
 			add = line.strip().split('-')
 			specialCharacters.append([add[0].strip(), add[1].strip()])
@@ -128,6 +151,9 @@ class Main(QWidget):
 
 def main():
 	app = QApplication(sys.argv)
+	global screenSize
+	screenSize = (app.primaryScreen().size().width(), app.primaryScreen().size().height())
+	print(screenSize)
 	ex = Main()
 	sys.exit(app.exec())
 
