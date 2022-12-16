@@ -74,7 +74,10 @@ def getConfig():
 
 def write(s):
 	print(s)
-	subprocess.Popen(['xdotool', 'type', s])
+	#subprocess.Popen(['xdotool', 'type', s])
+	from pynput.keyboard import Controller
+	keyboard = Controller()
+	keyboard.type(s)
 
 def refreshList(txt):
 	ret = []
