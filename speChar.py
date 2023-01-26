@@ -14,6 +14,7 @@ import sys, os, subprocess
 #default values
 PyQt_VERSION = 5
 LANGUAGE = "en"
+EMOJI = False
 
 #reading arguments values
 args = sys.argv[1:]
@@ -23,10 +24,16 @@ if "-l" in args:
 if "-v" in args:
 	PyQt_VERSION = int(args[args.index("-v") + 1])
 
+if "--emoji" in args:
+	EMOJI = True
+
 #global variables
 
 path = os.path.abspath(os.path.dirname(__file__))
-configPath = path + "/speChar_" + LANGUAGE.strip() + ".config"
+if EMOJI:
+	configPath = path + "/emoji_" + LANGUAGE.strip() + ".config"
+else:
+	configPath = path + "/speChar_" + LANGUAGE.strip() + ".config"
 iconPath = path + "/speCharIcon.ico"
 screenSize = (None, None)
 
