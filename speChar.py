@@ -76,8 +76,11 @@ def write(s):
 	print(s)
 	#subprocess.Popen(['xdotool', 'type', s])
 	from pynput.keyboard import Controller
+	import pyperclip
 	keyboard = Controller()
 	keyboard.type(s)
+	pyperclip.copy(s)
+
 
 def refreshList(txt):
 	ret = []
@@ -132,6 +135,7 @@ class Main(QWidget):
 		for el in lq:
 			lbox.addItem(el)
 		lbox.resize(lbox.sizeHint())
+		self.lbox.setFont(QFont('Noto Color Emoji'))
 		lbox.itemClicked.connect(itemclicked)
 		self.tbox = QLineEdit(self)
 		tbox = self.tbox

@@ -61,3 +61,4 @@ now just press the hotkey whenever you want to insert a special character, type 
 + tidy up
 + ~~change scrollbar to native~~ (Qt5 supports themes better than Qt6)
 * add more languages support
+* complete the emoji config and add flag `--emoji` to use it
